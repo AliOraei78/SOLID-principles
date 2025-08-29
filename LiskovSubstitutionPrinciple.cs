@@ -15,7 +15,7 @@ public abstract class Task
     }
 }
 
-public class SubTask : Task
+public class SubTask: Task
 {
     public string Importance { get; set; }
 
@@ -30,12 +30,5 @@ public class SubTask : Task
     }
 }
 
-// Example usage:
-class Program
-{
-    static void Main()
-    {
-        Task task = new SubTask(); //LSP: SubTask can replace Task
-        task.SaveTask("Gym");      // Works without errors
-    }
-}
+Task task = new SubTask(); //LSP: SubTask can replace Task
+task.SaveTask("Gym");      // Works without errors
