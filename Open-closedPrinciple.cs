@@ -1,96 +1,94 @@
-/*The Open-Closed Principle means that a class or function can be extended, 
-but it must pass unit tests and should not be modified. Abstraction and inheritance can be used to avoid this conflict.*/
+/* 
+Open-Closed Principle:
+A class or function should be open for extension, but closed for modification. 
+Abstraction and inheritance allow adding new behavior without changing existing code.
+*/
 
-//For example:
-
-public class Car 
+//Flase Example: Requires modification for each new vehicle type
+public class CarBad
 {
-    public int Wheels {get; set;}
-    public int Passengers {get; set;}
-    public bool IsElectrical {get; set;}
+    public int Wheels { get; set; }
+    public int Passengers { get; set; }
+    public bool IsElectrical { get; set; }
 }
 
-public class Bus 
+public class BusBad
 {
-    public int Wheels {get; set;}
-    public int Passengers {get; set;}
-    public double InsuranceCost {get; set;}
+    public int Wheels { get; set; }
+    public int Passengers { get; set; }
+    public double InsuranceCost { get; set; }
 }
 
-public class TotalTransportationCost 
+public class TotalTransportationCostBad
 {
-    public double TotalCost(object[] objects) 
+    public double TotalCost(object[] vehicles)
     {
         double cost = 0;
-        Car objCar;
-        Bus objBus;
-        foreach(var object in objects)
+
+        foreach (var v in vehicles)
         {
-            if(object is Car)
+            if (v is CarBad car)
             {
-                if(object.IsElectrical is true)
+                if (car.IsElectrical)
                 {
-                    cost += object.Passengers * 500;
+                    cost += car.Passengers * 500;
                 }
                 else
                 {
-                    cost += object.Passengers * 1000;
+                    cost += car.Passengers * 1000;
                 }
             }
-            else
+            else if (v is BusBad bus)
             {
-                cost += (object.Passengers * 200) + object.InsuranceCost;
+                cost += (bus.Passengers * 200) + bus.InsuranceCost;
             }
         }
+
         return cost;
     }
-} 
-/* TransportationCost needs to be modified every time a new vehicle is added to the class, 
-because each vehicle might have different variables for calculating the transportation cost. */
+}
 
-public abstract class Vehicle 
+
+/*Fixed Example: Open for extension, closed for modification */
+public abstract class Vehicle
 {
-    public int Wheels {get; set;}
-    public int Passengers {get; set;}
-    public abstract double Cost();   
+    public int Wheels { get; set; }
+    public int Passengers { get; set; }
+
+    public abstract double Cost();
 }
 
 public class Car : Vehicle
 {
-    public bool IsElectrical {get; set;}
+    public bool IsElectrical { get; set; }
+
     public override double Cost()
     {
-        if(object.IsElectrical is true)
-        {
-            return cost = object.Passengers * 500;
-        }
-        else
-        {
-            return cost = object.Passengers * 1000;
-        }        
+        return IsElectrical ? Passengers * 500 : Passengers * 1000;
     }
 }
 
 public class Bus : Vehicle
 {
-    public double InsuranceCost {get; set;}
+    public double InsuranceCost { get; set; }
+
     public override double Cost()
     {
-        return cost = (object.Passengers * 200) + object.InsuranceCost;      
-    } 
+        return (Passengers * 200) + InsuranceCost;
+    }
 }
 
-public class TransportationCost 
+public class TransportationCost
 {
-    public double TotalCost(Vehicle[] objects) 
+    public double TotalCost(Vehicle[] vehicles)
     {
         double totalCost = 0;
-        foreach(var object in objects)
-        {
-            totalCost += object.cost();
-        }
-        return totalCost;
-    } 
-} 
 
-//Abstraction and inheritance are used in order to obey ocp
+        foreach (var v in vehicles)
+        {
+            totalCost += v.Cost();
+        }
+
+        return totalCost;
+    }
+}

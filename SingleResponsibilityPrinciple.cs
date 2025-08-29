@@ -1,26 +1,92 @@
-/*Single Responsibility Principle means a class/function should have only one reponsibility related to it's purpose,
-this will lead to better flexibility and management in case the class/function needs to change */
+/* 
+Single Responsibility Principle: 
+A class or function should have only one responsibility related to its purpose. 
+This improves flexibility and makes changes easier to manage.
+*/
 
-//For example(class):
+// Flase Example
+public class Actor
+{
+    //Related
+    public bool IsActing()
+    {
+        //Return if is acting
+    }
 
-public class Actor{
-    public bool isActing(){} //related
-    public sendJobOffer(){} //not related, it should be handled in the job class.
+    //Not Actor's responsibility
+    public void SendJobOffer()
+    {
+        //Send job offer
+    }
 }
 
-//For example(function):
+//Fixed Example
+public class Actor
+{
+    public bool IsActing()
+    {
+        //Return if is acting
+    }
+}
 
-public class TransactionService{
-    DbContext _dbContext;
-    public TransactionService(DbContext dbContext){
+public class JobService
+{
+    public void SendJobOffer(Actor actor)
+    {
+        //Send job offer
+    }
+}
+
+
+//False Example
+public class TransactionService
+{
+    private readonly DbContext _dbContext;
+
+    public TransactionService(DbContext dbContext)
+    {
         _dbContext = dbContext;
     }
-    public void SaveTransaction(string taHash){
+
+    public void SaveTransaction(string taHash)
+    {
         var transaction = new Transaction(taHash);
-        _dbContext.Save(transaction);
-        SendAlert(new Alert(){TransactionHash=taHash}); //not related, should be handled in the Alert class.
+        _dbContext.Add(transaction);
+        _dbContext.SaveChanges();
+
+        //Not related, should be handled separately
+        SendAlert(new Alert { TransactionHash = taHash });
     }
-    public bool SendAlert(Alert alert){
-        ShowAlert(alert); 
+
+    public void SendAlert(Alert alert)
+    {
+        //Send alert
+    }
+}
+
+
+//Fixed Example
+public class TransactionService
+{
+    private readonly DbContext _dbContext;
+
+    public TransactionService(DbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public void SaveTransaction(string taHash)
+    {
+        var transaction = new Transaction(taHash);
+        _dbContext.Add(transaction);
+        _dbContext.SaveChanges();
+    }
+}
+
+public class AlertService
+{
+    public void SendAlert(Alert alert)
+    {
+        //Send alert
     }
 }
