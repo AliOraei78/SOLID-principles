@@ -4,28 +4,33 @@ A class or function should have only one responsibility related to its purpose.
 This improves flexibility and makes changes easier to manage.
 */
 
-// Flase Example
+// ------------------------------ Violation Example ------------------------------
 public class Actor
 {
-    //Related
+    // Related
     public bool IsActing()
     {
-        //Return if is acting
+        // Return if is acting
+        return true;
     }
 
-    //Not Actor's responsibility
+    // Not Actor's responsibility
     public void SendJobOffer()
     {
         //Send job offer
     }
 }
 
-//Fixed Example
+
+
+
+// ------------------------------ Fixed Example ------------------------------
 public class Actor
 {
     public bool IsActing()
     {
         //Return if is acting
+        return true;
     }
 }
 
@@ -33,12 +38,14 @@ public class JobService
 {
     public void SendJobOffer(Actor actor)
     {
-        //Send job offer
+        // Send job offer
     }
 }
 
 
-//False Example
+
+
+// ------------------------------ Violation Example ------------------------------
 public class TransactionService
 {
     private readonly DbContext _dbContext;
@@ -48,24 +55,26 @@ public class TransactionService
         _dbContext = dbContext;
     }
 
-    public void SaveTransaction(string taHash)
+    public void SaveTransaction(string transactionHash)
     {
-        var transaction = new Transaction(taHash);
+        var transaction = new Transaction(transactionHash);
         _dbContext.Add(transaction);
         _dbContext.SaveChanges();
 
-        //Not related, should be handled separately
-        SendAlert(new Alert { TransactionHash = taHash });
+        // Not related, should be handled separately
+        SendAlert(new Alert { TransactionHash = transactionHash });
     }
 
     public void SendAlert(Alert alert)
     {
-        //Send alert
+        // Send alert
     }
 }
 
 
-//Fixed Example
+
+
+// ------------------------------ Fixed Example ------------------------------
 public class TransactionService
 {
     private readonly DbContext _dbContext;
@@ -75,9 +84,9 @@ public class TransactionService
         _dbContext = dbContext;
     }
 
-    public void SaveTransaction(string taHash)
+    public void SaveTransaction(string transactionHash)
     {
-        var transaction = new Transaction(taHash);
+        var transaction = new Transaction(transactionHash);
         _dbContext.Add(transaction);
         _dbContext.SaveChanges();
     }
@@ -87,6 +96,6 @@ public class AlertService
 {
     public void SendAlert(Alert alert)
     {
-        //Send alert
+        // Send alert
     }
 }

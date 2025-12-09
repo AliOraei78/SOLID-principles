@@ -4,22 +4,22 @@ A class or function should be open for extension, but closed for modification.
 Abstraction and inheritance allow adding new behavior without changing existing code.
 */
 
-//Flase Example: Requires modification for each new vehicle type
-public class CarBad
+// ------------------------------ Violation Example: Requires modification for each new vehicle type ------------------------------
+public class Car
 {
     public int Wheels { get; set; }
     public int Passengers { get; set; }
     public bool IsElectrical { get; set; }
 }
 
-public class BusBad
+public class Bus
 {
     public int Wheels { get; set; }
     public int Passengers { get; set; }
     public double InsuranceCost { get; set; }
 }
 
-public class TotalTransportationCostBad
+public class TotalTransportationCost
 {
     public double TotalCost(object[] vehicles)
     {
@@ -27,7 +27,7 @@ public class TotalTransportationCostBad
 
         foreach (var v in vehicles)
         {
-            if (v is CarBad car)
+            if (v is Car car)
             {
                 if (car.IsElectrical)
                 {
@@ -38,7 +38,7 @@ public class TotalTransportationCostBad
                     cost += car.Passengers * 1000;
                 }
             }
-            else if (v is BusBad bus)
+            else if (v is Bus bus)
             {
                 cost += (bus.Passengers * 200) + bus.InsuranceCost;
             }
@@ -49,7 +49,9 @@ public class TotalTransportationCostBad
 }
 
 
-/*Fixed Example: Open for extension, closed for modification */
+
+
+/* ------------------------------ Fixed Example: Open for extension, closed for modification ------------------------------ */
 public abstract class Vehicle
 {
     public int Wheels { get; set; }
