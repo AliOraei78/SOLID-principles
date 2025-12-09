@@ -1,5 +1,5 @@
 /* 
-Single Responsibility Principle: 
+Single Responsibility Principle (SRP): 
 A class or function should have only one responsibility related to its purpose. 
 This improves flexibility and makes changes easier to manage.
 */

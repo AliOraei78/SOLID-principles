@@ -1,5 +1,5 @@
 /* 
-Liskov Substitution Principle: 
+Liskov Substitution Principle (LSP): 
 A derived class must be usable in place of its parent class 
 without causing errors or conflicts.
 */

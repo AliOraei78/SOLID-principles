@@ -1,5 +1,5 @@
 /* 
-Open-Closed Principle:
+Open-Closed Principle (OCP):
 A class or function should be open for extension, but closed for modification. 
 Abstraction and inheritance allow adding new behavior without changing existing code.
 */
